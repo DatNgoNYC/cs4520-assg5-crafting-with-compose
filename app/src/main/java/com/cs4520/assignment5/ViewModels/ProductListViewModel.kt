@@ -1,6 +1,7 @@
 package com.cs4520.assignment5.ViewModels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,9 +17,15 @@ class ProductListViewModel(application: Application) : AndroidViewModel(applicat
     val uiState: LiveData<ProductListUiState> = _uiState
 
     fun refreshProducts() {
+        _uiState.value = _uiState.value?.copy(
+            isLoading = true
+        )
+
         viewModelScope.launch {
             try {
                 val results = repository.addRandomProductListToCurrentAndReturnAllProducts()
+
+                Log.d("productList", "$results")
 
                 if (results.isEmpty()) {
                     _uiState.value = _uiState.value?.copy(

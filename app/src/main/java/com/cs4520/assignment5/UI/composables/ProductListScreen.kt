@@ -44,10 +44,14 @@ fun ProductListScreen() {
         if (uiState?.isLoading == true) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         } else {
-            LazyColumn() {
-                uiState?.let {
-                    items(it.products) { product ->
-                        ProductListItem(product)
+            if (uiState?.products?.isEmpty() == true) {
+                Text(text = "no products")
+            } else {
+                LazyColumn() {
+                    uiState?.let {
+                        items(it.products) { product ->
+                            ProductListItem(product)
+                        }
                     }
                 }
             }
@@ -60,8 +64,9 @@ fun ProductListScreen() {
 
 @Composable
 fun ProductListItem(product: Product) {
-        Row(
-            modifier = Modifier.background(
+    Row(
+        modifier = Modifier
+            .background(
                 colorResource(
                     id = when (product.type) {
                         "Food" -> R.color.light_yellow
@@ -71,24 +76,30 @@ fun ProductListItem(product: Product) {
                         }
                     }
                 )
-            ).fillMaxWidth()
-        ) {
-            Image(painter = painterResource(
+            )
+            .fillMaxWidth()
+    ) {
+        Image(
+            painter = painterResource(
                 id = when (product.type) {
                     "Food" -> R.drawable.food
                     "Equipment" -> R.drawable.equipment
-                    else -> {R.drawable.ic_launcher_foreground}
-                }), contentDescription = "",
-                modifier = Modifier.size(88.dp))
-
-            Column {
-                Text(text = product.name)
-                product.expiryDate?.let {
-                    Text(text = product.expiryDate)
+                    else -> {
+                        R.drawable.ic_launcher_foreground
+                    }
                 }
-                Text(text = product.price)
+            ), contentDescription = "",
+            modifier = Modifier.size(88.dp)
+        )
+
+        Column {
+            Text(text = product.name)
+            product.expiryDate?.let {
+                Text(text = product.expiryDate)
             }
+            Text(text = product.price)
         }
+    }
 }
 
 @Preview

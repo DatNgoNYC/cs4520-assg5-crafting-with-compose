@@ -1,4 +1,4 @@
 package com.cs4520.assignment5.Work
 
-class ProductFetchWorker {
+class FetchProductsWorker () {
 }

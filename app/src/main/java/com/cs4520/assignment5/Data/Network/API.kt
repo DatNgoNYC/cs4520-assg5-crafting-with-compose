@@ -26,7 +26,7 @@ object RetrofitClient {
 }
 
 interface amazonApiService {
-    @GET("prod/")
+    @GET(".")
     suspend fun getRandomProducts(): Response<List<Product>>
 }
 
