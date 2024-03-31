@@ -31,8 +31,8 @@ class ProductListViewModel(application: Application) : AndroidViewModel(applicat
             isLoading = true
         )
 
-        val request = PeriodicWorkRequestBuilder<FetchProductsWorker>(10, TimeUnit.SECONDS)
-            .setInitialDelay(10, TimeUnit.SECONDS)
+        val request = PeriodicWorkRequestBuilder<FetchProductsWorker>(1, TimeUnit.HOURS)
+            .setInitialDelay(1, TimeUnit.HOURS)
             .build()
 
         workerManager.enqueueUniquePeriodicWork(
