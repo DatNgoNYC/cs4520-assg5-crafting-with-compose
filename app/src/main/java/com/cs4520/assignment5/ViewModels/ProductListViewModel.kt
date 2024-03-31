@@ -1,4 +1,7 @@
 package com.cs4520.assignment5.ViewModels
 
-class ProductListViewModel {
+import androidx.lifecycle.ViewModel
+
+class ProductListViewModel : ViewModel() {
+
 }
