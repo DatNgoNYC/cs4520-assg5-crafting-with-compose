@@ -1,4 +1,9 @@
 package com.cs4520.assignment5.UI.composables
 
-class LoginScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun LoginScreen(
+    navigateToProductList: () -> Unit) {
+
 }
