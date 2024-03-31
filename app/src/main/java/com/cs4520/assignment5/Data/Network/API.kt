@@ -9,8 +9,7 @@ import retrofit2.http.Query
 
 
 object RetrofitClient {
-    const val BASE_URL: String = "https://kgtttq6tg9.execute-api.us-east-2.amazonaws.com/"
-    const val ENDPOINT: String = "prod/random/"
+    const val BASE_URL: String = "https://kgtttq6tg9.execute-api.us-east-2.amazonaws.com/prod/random/"
 
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()
@@ -28,6 +27,6 @@ object RetrofitClient {
 
 interface amazonApiService {
     @GET("prod/")
-    suspend fun getProductListByPage(@Query("page") pageNumber: Int): Response<List<Product>>
+    suspend fun getRandomProducts(): Response<List<Product>>
 }
 

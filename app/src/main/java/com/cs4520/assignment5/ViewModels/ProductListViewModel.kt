@@ -11,25 +11,32 @@ import com.cs4520.assignment4.Data.ProductRepository
 import kotlinx.coroutines.launch
 
 class ProductListViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository : ProductRepository = ProductRepository(application.applicationContext)
-    private val _products = MutableLiveData<List<Product>>()
-    val products: LiveData<List<Product>> = _products
-    private val _isLoading = MutableLiveData<Boolean>(true)
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val repository: ProductRepository = ProductRepository(application.applicationContext)
 
-    fun loadProducts() {
+    private val _uiState = MutableLiveData(ProductListUiState(isLoading = true))
+    val uiState: LiveData<ProductListUiState> = _uiState
 
+    fun refreshProducts() {
         viewModelScope.launch {
             try {
                 val results = repository.getAllProducts()
+
                 if (results.isEmpty()) {
-                    _isLoading.postValue(false)
+                    _uiState.value = _uiState.value?.copy(
+                        isLoading = false,
+                        error = "No products found."
+                    )
                 } else {
-                    _isLoading.postValue(false)
-                    _products.postValue(results)
+                    _uiState.value = _uiState.value?.copy(
+                        isLoading = false,
+                        products = results
+                    )
                 }
             } catch (e: Error) {
-                _isLoading.postValue(false)
+                _uiState.value = _uiState.value?.copy(
+                    isLoading = false,
+                    error = "Error fetching products, uh oh. MSG: ${e.message}"
+                )
             }
         }
     }
