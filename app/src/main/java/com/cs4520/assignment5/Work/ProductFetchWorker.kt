@@ -12,9 +12,11 @@ class FetchProductsWorker (appContext: Context, workerParameters: WorkerParamete
         return try {
             val repository: ProductRepository = ProductRepository(applicationContext)
             repository.addRandomProductListToCurrentAndReturnAllProducts()
+            Log.d("WorkerManager", "adding stuff with workermanager")
+
 
             Result.success()
-        } catch (e: Exception) {
+        } catch (e: Error) {
             Log.d("WorkerManager", "${e.message}")
             Result.failure()
         }

@@ -6,9 +6,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.cs4520.assignment4.Data.Entities.Product
 import com.cs4520.assignment4.Data.ProductRepository
+import com.cs4520.assignment5.Work.FetchProductsWorker
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class ProductListViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: ProductRepository = ProductRepository(application.applicationContext)
@@ -16,9 +21,24 @@ class ProductListViewModel(application: Application) : AndroidViewModel(applicat
     private val _uiState = MutableLiveData(ProductListUiState(isLoading = true))
     val uiState: LiveData<ProductListUiState> = _uiState
 
+    val workerManager = WorkManager.getInstance(application.applicationContext)
+
+
     fun refreshProducts() {
+        Log.d("ProductList", "refreshProducts() is being called.")
+
         _uiState.value = _uiState.value?.copy(
             isLoading = true
+        )
+
+        val request = PeriodicWorkRequestBuilder<FetchProductsWorker>(10, TimeUnit.SECONDS)
+            .setInitialDelay(10, TimeUnit.SECONDS)
+            .build()
+
+        workerManager.enqueueUniquePeriodicWork(
+            "Fetch Products in the next 10 secs.",
+            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
+            request
         )
 
         viewModelScope.launch {
