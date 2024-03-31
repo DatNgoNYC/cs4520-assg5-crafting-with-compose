@@ -21,7 +21,7 @@ class ProductRepository(
         val database = ProductDatabase.getDatabase(context)
         dao = database.productDao()
     }
-    suspend fun getRandomProductList(): List<Product> = withContext(Dispatchers.IO) {
+    suspend fun addRandomProductListToCurrentAndReturnAllProducts(): List<Product> = withContext(Dispatchers.IO) {
         if (isOnline(context)) {
             try {
                 val results = RetrofitClient.ProductsApiService.amazonApi.getRandomProducts()

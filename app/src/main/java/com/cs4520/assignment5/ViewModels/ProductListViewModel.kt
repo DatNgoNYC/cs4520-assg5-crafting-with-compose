@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cs4520.assignment4.Data.Entities.Product
 import com.cs4520.assignment4.Data.ProductRepository
@@ -19,7 +18,7 @@ class ProductListViewModel(application: Application) : AndroidViewModel(applicat
     fun refreshProducts() {
         viewModelScope.launch {
             try {
-                val results = repository.getAllProducts()
+                val results = repository.addRandomProductListToCurrentAndReturnAllProducts()
 
                 if (results.isEmpty()) {
                     _uiState.value = _uiState.value?.copy(
