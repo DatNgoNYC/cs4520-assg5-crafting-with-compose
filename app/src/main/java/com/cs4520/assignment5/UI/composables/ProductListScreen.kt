@@ -1,5 +1,6 @@
 package com.cs4520.assignment5.UI.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ fun ProductListScreen() {
     // use LaunchedEffects to load the products
     LaunchedEffect(key1 = true) {
         productListViewModel.refreshProducts()
+
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -50,6 +52,8 @@ fun ProductListScreen() {
                 }
             }
         }
+
+
     }
 }
 

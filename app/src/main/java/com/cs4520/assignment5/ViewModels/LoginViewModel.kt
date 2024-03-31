@@ -4,6 +4,6 @@ import androidx.lifecycle.ViewModel
 
 class LoginViewModel : ViewModel() {
     fun checkCreditentials(username: String, password: String) : Boolean {
-        return username === "admin" && password === "admin"
+        return username == "admin" && password == "admin"
     }
 }
